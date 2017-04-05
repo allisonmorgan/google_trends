@@ -47,7 +47,7 @@ def mutual_information(data, input_filepath, delay):
 # which the percentage drops below 10%
 
 def false_nearest_neighbors(data, input_filepath, delay):
-  # Run the TISEAN mutual function
+  # Run the TISEAN false nearest neighbors function
   output_filepath = input_filepath + ".fnn"
   command = '{tisean}/false_nearest "{input}" -d {delay} -o "{output}"'.format(
     tisean=tisean_filepath, 
@@ -73,6 +73,33 @@ def false_nearest_neighbors(data, input_filepath, delay):
   plt.plot(mi, fnn)
   plt.savefig("{0}.png".format(output_filepath))  
 
+def recurrence(data, input_filepath, delay):
+  # Run the TISEAN mutual function
+  output_filepath = input_filepath + ".recurr"
+  command = '{tisean}/recurr "{input}" -m 1,2 -d {delay} -o "{output}"'.format(
+    tisean=tisean_filepath, 
+    input=input_filepath, 
+    delay=int(delay),
+    output=output_filepath)
+
+  var = os.system(command)
+
+  # Open the output file, and generates a recurrence plot
+  ti = []; tj = [];
+  with open(output_filepath, "r") as f:
+    lines = csv.reader(f, delimiter=' ')
+    for i, line in enumerate(lines):
+      ti.append(float(line[0]))
+      tj.append(float(line[1]))
+
+  fig = plt.figure()
+  ax = fig.add_subplot(111)
+
+  ax.set_ylabel(r"Time")
+  ax.set_xlabel(r"Time")
+  plt.plot(ti, tj)
+
+  plt.savefig("{0}.png".format(output_filepath))  
 
 # Takes data ([(x_1, t_1), (x_2, t_2)]), period tau (float, amount of 
 # time between steps), and embedding dimension m (int) and returns the

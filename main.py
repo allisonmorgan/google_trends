@@ -4,11 +4,11 @@ import utilities
 
 if __name__ == "__main__":
 
-  #input_filepath = "data/influenza.csv"
-  #delay = 6; dimension = 2;
-
-  input_filepath = "data/baseball.csv"
+  input_filepath = "data/influenza.csv"
   delay = 6; dimension = 2;
+
+  #input_filepath = "data/baseball.csv"
+  #delay = 6; dimension = 2;
 
   #input_filepath = "data/supreme_court.csv"
   #delay = 30; dimension = ;
@@ -24,3 +24,5 @@ if __name__ == "__main__":
   embedded = embedding.embedding(data, delay, dimension)
 
   utilities.plot_embedding(embedded, input_filepath, [0, 1])
+
+  embedding.recurrence(data, input_filepath, delay)
