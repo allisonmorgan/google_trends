@@ -26,7 +26,6 @@ def plot_series(data, input_filepath, keyword):
 
   plt.savefig("{0}.png".format(input_filepath+".trend")) 
 
-
 # Currently only works for two-dimensional embeddings
 def plot_embedding(embedded, input_filepath, dimensions):
   x = [row[dimensions[0]] for row in embedded]
