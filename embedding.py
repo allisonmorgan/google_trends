@@ -11,13 +11,13 @@ import csv
 
 tisean_filepath = "/Users/allisonmorgan/Code/bin/tisean"
 
-def mutual_information(data, input_filepath, delay):
+def mutual_information(input_filepath, delay):
   # Run the TISEAN mutual function
   output_filepath = input_filepath + ".mi"
   command = '{tisean}/mutual "{input}" -D {delay} -o "{output}"'.format(
     tisean=tisean_filepath, 
     input=input_filepath, 
-    delay=int(delay),
+    delay=delay,
     output=output_filepath)
 
   var = os.system(command)
@@ -38,7 +38,8 @@ def mutual_information(data, input_filepath, delay):
   ax = fig.add_subplot(111)
   ax.set_ylabel(r"Mutual Information")
   ax.set_xlabel(r"Index")
-  plt.plot(index, mi)
+  plt.plot(index, mi, color='k')
+
   plt.savefig("{0}.png".format(output_filepath))
 
 
@@ -46,7 +47,7 @@ def mutual_information(data, input_filepath, delay):
 # false nearest neighbors as a function of m and identiy the m for 
 # which the percentage drops below 10%
 
-def false_nearest_neighbors(data, input_filepath, delay):
+def false_nearest_neighbors(input_filepath, delay):
   # Run the TISEAN false nearest neighbors function
   output_filepath = input_filepath + ".fnn"
   command = '{tisean}/false_nearest "{input}" -d {delay} -o "{output}"'.format(
@@ -70,10 +71,11 @@ def false_nearest_neighbors(data, input_filepath, delay):
   ax = fig.add_subplot(111)
   ax.set_ylabel(r"False Nearest Neighbors")
   ax.set_xlabel(r"Dimension")
-  plt.plot(mi, fnn)
+  plt.plot(mi, fnn, color='k')
+
   plt.savefig("{0}.png".format(output_filepath))  
 
-def recurrence(data, input_filepath, delay):
+def recurrence(input_filepath, delay):
   # Run the TISEAN mutual function
   output_filepath = input_filepath + ".recurr"
   command = '{tisean}/recurr "{input}" -m 1,2 -d {delay} -o "{output}"'.format(
@@ -97,7 +99,7 @@ def recurrence(data, input_filepath, delay):
 
   ax.set_ylabel(r"Time")
   ax.set_xlabel(r"Time")
-  plt.plot(ti, tj)
+  plt.plot(ti, tj, color='k')
 
   plt.savefig("{0}.png".format(output_filepath))  
 
@@ -105,18 +107,18 @@ def recurrence(data, input_filepath, delay):
 # time between steps), and embedding dimension m (int) and returns the
 # embedded data [(x_1, ..., x_m), ... ] 
 
-def embedding(data, tau, m):
+def embedding(data, tau, m, column_name):
   # Determine the period tau in terms of indices
   n = len(data); points = [];
   #delta = int(round(tau/(data[1][1] - data[0][1])))
   delta = tau
 
-  for i, _ in enumerate(data):
+  for i, row in enumerate(data[column_name]):
     point = [];
     # Find the points one, two, three, etc. indices away
     for j in range(m):
-      if (i + j*delta < len(data)):
-        point.append(data[i + j*delta][0])
+      if (i + j*delta < len(data[column_name])):
+        point.append(data[column_name][i + j*delta])
     
     # If we were unable to collect m coordinates (as in, we reached 
     # the end of the list), don't add that entry to our data

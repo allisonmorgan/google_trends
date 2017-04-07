@@ -1,28 +1,31 @@
 
 import matplotlib.pyplot as plt
-import csv
+import matplotlib.dates as mdates
+import pandas as pd
+import numpy as np
 import calendar
 import time
 
 # Helper function for reading Google trends data
-def read_csv(input_filepath, delimiter, skip_rows, date_index, count_index):
-  data = [];
-  with open(input_filepath, "r") as f:
-    reader = csv.reader(f, delimiter=delimiter)
-    lines = [[x.strip() for x in row if len(x.strip()) > 0] for row in reader]
+def read_csv(input_filepath, delimiter):
+  return pd.read_csv(input_filepath, delimiter=delimiter, header=0)
 
-    for i, line in enumerate(lines):
-      if i in skip_rows:
-        continue
+# Currently only works for two-dimensional embeddings
+def plot_series(data, input_filepath, keyword):
+  data['date'] = data['date'].astype('datetime64[ns]')
 
-      try:
-        datetime = calendar.timegm(time.strptime(line[date_index], '%Y-%m'))
-      except:
-        datetime = calendar.timegm(time.strptime(line[date_index], '%Y-%m-%d'))
+  fig = plt.figure()
+  ax = fig.add_subplot(111)
+  
+  ax.set_ylabel(r"Relative Search Interest")
+  ax.set_xlabel(r"Time")
 
-      data.append([float(line[count_index]), datetime])
+  ax.plot_date(data['date'].values, data[keyword].values, color="k", ls="solid", ms=2)
 
-  return data
+  plt.ylim(0, 100)
+
+  plt.savefig("{0}.png".format(input_filepath+".trend")) 
+
 
 # Currently only works for two-dimensional embeddings
 def plot_embedding(embedded, input_filepath, dimensions):
@@ -32,8 +35,23 @@ def plot_embedding(embedded, input_filepath, dimensions):
   fig = plt.figure()
   ax = fig.add_subplot(111)
   
-  ax.set_ylabel(r"$x(t+{0}*\tau)$".format(dimensions[0]))
-  ax.set_xlabel(r"$x(t+{0}*\tau)$".format(dimensions[1]))
-  plt.scatter(y, x)
+  if dimensions[0] == 0:
+    ax.set_ylabel(r"$x(t)$")
+  elif dimensions[0] == 1:
+    ax.set_ylabel(r"$x(t+\tau)$")  
+  else:  
+    ax.set_ylabel(r"$x(t+{0}*\tau)$".format(dimensions[0]))
+
+  if dimensions[1] == 0:
+    ax.set_xlabel(r"$x(t)$")
+  elif dimensions[1] == 1:
+    ax.set_xlabel(r"$x(t+\tau)$")
+  else:
+    ax.set_xlabel(r"$x(t+{0}*\tau)$".format(dimensions[1]))
+  
+  plt.scatter(y, x, s=4, color="k")
+
+  plt.xlim(0, 100)
+  plt.ylim(0, 100)
 
   plt.savefig("{0}.png".format(input_filepath+".embed")) 
