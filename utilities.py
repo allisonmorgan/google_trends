@@ -11,7 +11,7 @@ def read_csv(input_filepath, delimiter):
   return pd.read_csv(input_filepath, delimiter=delimiter, header=0)
 
 # Currently only works for two-dimensional embeddings
-def plot_series(data, input_filepath, keyword):
+def plot_series(data, input_filepath, keyword, save_output = True):
   data['date'] = data['date'].astype('datetime64[ns]')
 
   fig = plt.figure()
@@ -24,10 +24,13 @@ def plot_series(data, input_filepath, keyword):
 
   plt.ylim(0, 100)
 
-  plt.savefig("{0}.png".format(input_filepath+".trend")) 
+  if save_output:
+    plt.savefig("{0}.png".format(input_filepath+".trend")) 
+
+  return [data['date'].values, data[keyword].values]
 
 # Currently only works for two-dimensional embeddings
-def plot_embedding(embedded, input_filepath, dimensions):
+def plot_embedding(embedded, input_filepath, dimensions, save_output = True):
   x = [row[dimensions[0]] for row in embedded]
   y = [row[dimensions[1]] for row in embedded]
 
@@ -53,4 +56,5 @@ def plot_embedding(embedded, input_filepath, dimensions):
   plt.xlim(0, 100)
   plt.ylim(0, 100)
 
-  plt.savefig("{0}.png".format(input_filepath+".embed")) 
+  if save_output:
+    plt.savefig("{0}.png".format(input_filepath+".embed")) 

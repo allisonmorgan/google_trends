@@ -11,7 +11,7 @@ import csv
 
 tisean_filepath = "/Users/allisonmorgan/Code/bin/tisean"
 
-def mutual_information(input_filepath, delay):
+def mutual_information(input_filepath, delay, save_output=True):
   # Run the TISEAN mutual function
   output_filepath = input_filepath + ".mi"
   command = '{tisean}/mutual "{input}" -D {delay} -o "{output}"'.format(
@@ -40,20 +40,27 @@ def mutual_information(input_filepath, delay):
   ax.set_xlabel(r"Index")
   plt.plot(index, mi, color='k')
 
-  plt.savefig("{0}.png".format(output_filepath))
+  if save_output:
+    plt.savefig("{0}.png".format(output_filepath))
+
+  return [index, mi]
 
 
 # Find the best embedding dimension. Construct a plot of percentage of
 # false nearest neighbors as a function of m and identiy the m for 
 # which the percentage drops below 10%
 
-def false_nearest_neighbors(input_filepath, delay):
+def false_nearest_neighbors(input_filepath, delay, theiler, min_dim, max_dim, ratio, save_output=True):
   # Run the TISEAN false nearest neighbors function
   output_filepath = input_filepath + ".fnn"
-  command = '{tisean}/false_nearest "{input}" -d {delay} -o "{output}"'.format(
+  command = '{tisean}/false_nearest "{input}" -d {delay} -t {theiler} -M {min_dim},{max_dim} -f {ratio} -o "{output}"'.format(
     tisean=tisean_filepath, 
     input=input_filepath, 
     delay=int(delay),
+    theiler=int(theiler),
+    min_dim=min_dim,
+    max_dim=max_dim,
+    ratio=float(ratio),
     output=output_filepath)
 
   var = os.system(command)
@@ -73,9 +80,12 @@ def false_nearest_neighbors(input_filepath, delay):
   ax.set_xlabel(r"Dimension")
   plt.plot(mi, fnn, color='k')
 
-  plt.savefig("{0}.png".format(output_filepath))  
+  if save_output:
+    plt.savefig("{0}.png".format(output_filepath)) 
 
-def recurrence(input_filepath, delay):
+  return [mi, fnn] 
+
+def recurrence(input_filepath, delay, save_output=True):
   # Run the TISEAN mutual function
   output_filepath = input_filepath + ".recurr"
   command = '{tisean}/recurr "{input}" -m 1,2 -d {delay} -o "{output}"'.format(
@@ -101,7 +111,10 @@ def recurrence(input_filepath, delay):
   ax.set_xlabel(r"Time")
   plt.plot(ti, tj, color='k')
 
-  plt.savefig("{0}.png".format(output_filepath))  
+  if save_output:
+    plt.savefig("{0}.png".format(output_filepath))  
+
+  return [ti, tj]
 
 # Takes data ([(x_1, t_1), (x_2, t_2)]), period tau (float, amount of 
 # time between steps), and embedding dimension m (int) and returns the
