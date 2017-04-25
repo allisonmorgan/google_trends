@@ -14,7 +14,7 @@ tisean_filepath = "/Users/allisonmorgan/Code/bin/tisean"
 def mutual_information(input_filepath, delay, save_output=True):
   # Run the TISEAN mutual function
   output_filepath = input_filepath + ".mi"
-  command = '{tisean}/mutual "{input}" -D {delay} -o "{output}"'.format(
+  command = '{tisean}/mutual "{input}" -c2 -D {delay} -o "{output}"'.format(
     tisean=tisean_filepath, 
     input=input_filepath, 
     delay=delay,
@@ -38,7 +38,8 @@ def mutual_information(input_filepath, delay, save_output=True):
   ax = fig.add_subplot(111)
   ax.set_ylabel(r"Mutual Information")
   ax.set_xlabel(r"Index")
-  plt.plot(index, mi, color='k')
+  plt.plot(index, mi, color='blue')
+  plt.xlim(0, max(index))
 
   if save_output:
     plt.savefig("{0}.png".format(output_filepath))
@@ -53,7 +54,7 @@ def mutual_information(input_filepath, delay, save_output=True):
 def false_nearest_neighbors(input_filepath, delay, theiler, min_dim, max_dim, ratio, save_output=True):
   # Run the TISEAN false nearest neighbors function
   output_filepath = input_filepath + ".fnn"
-  command = '{tisean}/false_nearest "{input}" -d {delay} -t {theiler} -M {min_dim},{max_dim} -f {ratio} -o "{output}"'.format(
+  command = '{tisean}/false_nearest "{input}" -c2 -d {delay} -t {theiler} -M {min_dim},{max_dim} -f {ratio} -o "{output}"'.format(
     tisean=tisean_filepath, 
     input=input_filepath, 
     delay=int(delay),
@@ -78,7 +79,8 @@ def false_nearest_neighbors(input_filepath, delay, theiler, min_dim, max_dim, ra
   ax = fig.add_subplot(111)
   ax.set_ylabel(r"False Nearest Neighbors")
   ax.set_xlabel(r"Dimension")
-  plt.plot(mi, fnn, color='k')
+  plt.axhline(y=0.10, color ='k', linestyle='dashed')
+  plt.plot(mi, fnn, color='blue')
 
   if save_output:
     plt.savefig("{0}.png".format(output_filepath)) 
@@ -88,7 +90,7 @@ def false_nearest_neighbors(input_filepath, delay, theiler, min_dim, max_dim, ra
 def recurrence(input_filepath, delay, save_output=True):
   # Run the TISEAN mutual function
   output_filepath = input_filepath + ".recurr"
-  command = '{tisean}/recurr "{input}" -m 1,2 -d {delay} -o "{output}"'.format(
+  command = '{tisean}/recurr "{input}" -m 1,4 -c2 -d {delay} -o "{output}"'.format(
     tisean=tisean_filepath, 
     input=input_filepath, 
     delay=int(delay),
@@ -109,7 +111,7 @@ def recurrence(input_filepath, delay, save_output=True):
 
   ax.set_ylabel(r"Time")
   ax.set_xlabel(r"Time")
-  plt.plot(ti, tj, color='k')
+  plt.plot(ti, tj, color='blue')
 
   if save_output:
     plt.savefig("{0}.png".format(output_filepath))  
@@ -120,7 +122,7 @@ def recurrence(input_filepath, delay, save_output=True):
 # time between steps), and embedding dimension m (int) and returns the
 # embedded data [(x_1, ..., x_m), ... ] 
 
-def embedding(data, tau, m, column_name):
+def embedding(input_filepath, data, tau, m, column_name, save_output=True):
   # Determine the period tau in terms of indices
   n = len(data); points = [];
   #delta = int(round(tau/(data[1][1] - data[0][1])))
@@ -137,5 +139,9 @@ def embedding(data, tau, m, column_name):
     # the end of the list), don't add that entry to our data
     if len(point) == m:
       points.append(point)
+
+  with open(input_filepath + ".embed", 'w') as f:
+    writer = csv.writer(f)
+    writer.writerows(points)
 
   return points
