@@ -1,13 +1,10 @@
 
-import argparse
 from collections import Counter, defaultdict
 
 import random
 import numpy
-import copy
 from numpy import median
 from sklearn.neighbors import BallTree
-from utilities import dates
 
 class Data:
     """
@@ -123,61 +120,3 @@ class Knearest:
         random_walk = numpy.abs(numpy.diff(training, axis = 0)).sum()
         return numpy.array(error/((len(prediction)/(len(training) - 1.0))*random_walk)).sum()
 
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='KNN classifier options')
-    parser.add_argument('--k', type=int, default=3,
-                        help="Number of nearest points to use")
-    parser.add_argument('--multistep', type=bool, default=False, help="Perform a multi-step forecast (feed predictions back into our training set), or perform predictions on each point in our training set")
-    args = parser.parse_args()
-
-    if args.multistep:
-        print("Since multi-step forecast is {0}, number of nearest neighbors (currently {1}) must be set to 1".format(args.multistep, args.k))
-        args.k = 1
-
-    data = Data("data/fullmoon_hourly.csv.embed")
-
-    # You should not have to modify any of this code
-    knn = Knearest(data.train_x, data.train_y, args.k)
-    print("Done loading data")
-
-    prediction = []; truth = [];
-    test = copy.copy(data.test_x)
-    for i in range(len(data.test_x)):
-        xx, yy = test[i], data.test_y[i]
-        prediction_embedded = knn.classify(xx)
-
-        prediction.append(prediction_embedded[0])
-        truth.append(yy[0])
-
-        if args.multistep and (i + 1) < len(data.test_x):
-            test[i + 1] = prediction_embedded
-
-    # Calculate the average error
-    training = [row[0] for row in data.train_x]
-    print("Error: {0}".format(knn.error(prediction, truth, training)))
-
-    import matplotlib.pyplot as plt
-
-    fig = plt.figure(figsize=(12,6))
-    ax = fig.add_subplot(111)
-  
-    ax.set_ylabel(r"Relative Search Interest")
-    ax.set_xlabel(r"Time")
-
-    ax.plot_date(dates[len(dates) - len(data.test_x):], truth, mec="blue", mfc="white", ms=4) 
-    ax.plot_date(dates[len(dates) - len(data.test_x):], prediction, color="red", marker='+', ms=4)
-    plt.xticks(rotation=45)
-
-    fig.tight_layout()
-    plt.savefig("data/fullmooon_hourly_prediction.png")
-
-    """
-    confusion = knn.confusion_matrix(data.test_x, data.test_y)
-    print("\t" + "\t".join(str(x) for x in xrange(10)))
-    print("".join(["-"] * 90))
-    for ii in xrange(10):
-        print("%i:\t" % ii + "\t".join(str(confusion[ii].get(x, 0))
-                                       for x in xrange(10)))
-    print("Accuracy: %f" % knn.accuracy(confusion))
-    """

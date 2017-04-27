@@ -27,7 +27,7 @@ def read_csv(input_filepath, delimiter):
 # Currently only works for two-dimensional embeddings
 def plot_series(data, input_filepath, keyword, save_output = True):
   #data['date'] = [date.astype('datetime64[ns]') for date in dates]
-  data['date'] = dates
+  #data['date'] = dates
 
   fig = plt.figure()
   ax = fig.add_subplot(111)
@@ -76,3 +76,19 @@ def plot_embedding(embedded, input_filepath, dimensions, save_output = True):
 
   if save_output:
     plt.savefig("{0}.png".format(input_filepath+".embed")) 
+
+def plot_prediction(input_filepath, truth, prediction, test):
+  fig = plt.figure(figsize=(12,6))
+  ax = fig.add_subplot(111)
+  
+  ax.set_ylabel(r"Relative Search Interest")
+  ax.set_xlabel(r"Time")
+
+  ax.plot_date(dates[len(dates) - test:], truth, mec="blue", mfc="white", ms=4) 
+  ax.plot_date(dates[len(dates) - test:], prediction, color="red", marker='+', ms=4)
+  plt.xticks(rotation=45)
+  plt.ylim(0, 50)
+
+  fig.tight_layout()
+  plt.savefig(input_filepath + "_prediction.png")
+
