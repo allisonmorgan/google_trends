@@ -9,7 +9,7 @@ import csv
 # Currently, this is just a wrapper for the TISEAN package and will
 # fail if TISEAN is not installed.
 
-tisean_filepath = "/Users/allisonmorgan/Code/bin/tisean"
+tisean_filepath = "tisean"
 
 def mutual_information(input_filepath, delay, save_output=True):
   # Run the TISEAN mutual function

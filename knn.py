@@ -3,7 +3,7 @@ from collections import Counter, defaultdict
 
 import random
 import numpy
-from numpy import median
+
 from sklearn.neighbors import BallTree
 
 class Data:

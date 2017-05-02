@@ -7,40 +7,39 @@ import copy
 import knn
 
 if __name__ == "__main__":
-  input_filepath = "data/baseball_hourly.csv"
-  #input_filepath = "data/influenza_hourly.csv"
-  #input_filepath = "data/fullmoon_hourly.csv"
-  keyword = 'Baseball'
-  #keyword = 'Influenza'
-  #keyword = 'Full moon'
+
+  parser = argparse.ArgumentParser(description='Prediction of Google search trends options')
+  parser.add_argument('--keyword', type=str, default="baseball", help="Google search trend to use")
+  parser.add_argument('--k', type=int, default=5, help="Number of nearest points to use for KNN")
+  parser.add_argument('--multistep', type=bool, default=False, help="Perform a multi-step forecast (feed predictions back into our training set), or perform predictions a single-step forecast")
+  args = parser.parse_args()
+
+  trend_options = {
+    "baseball": ["data/baseball_hourly.csv", "Baseball", 5, 4], 
+    "influenza": ["data/influenza_hourly.csv", "Influenza", 13, 5],
+    "fullmoon": ["data/fullmoon_hourly.csv", "Full moon", 14, 5]
+  }
+
+  if not trend_options.has_key(args.keyword):
+    print("Unsupported keyword supplied")
+    exit()
+
+  input_filepath, keyword, delay, m = trend_options[args.keyword]
 
   data = utilities.read_csv(input_filepath, "   ")
-  print(data[:5])
   utilities.plot_series(data, input_filepath, keyword)
   
   embedding.mutual_information(input_filepath, len(data))
 
-  delay = 5 # baseball
-  #delay = 13 # influenza
-  #delay = 14 # full moon
   theiler = 0
   min_dim = 1; max_dim = 10;
   ratio = 10.0;
   embedding.false_nearest_neighbors(input_filepath, delay, theiler, min_dim, max_dim, ratio)
 
-  m = 4 # baseball
-  #m = 5 # influenza
-  #m = 5 # full moon
-
   embedded = embedding.embedding(input_filepath, data, delay, m, keyword)
   utilities.plot_embedding(embedded, input_filepath, [1, 2])
 
   #embedding.recurrence(input_filepath, delay)
-
-  parser = argparse.ArgumentParser(description='KNN classifier options')
-  parser.add_argument('--k', type=int, default=3, help="Number of nearest points to use")
-  parser.add_argument('--multistep', type=bool, default=False, help="Perform a multi-step forecast (feed predictions back into our training set), or perform predictions on each point in our training set")
-  args = parser.parse_args()
 
   # args.k = 5 # baseball (Error: 0.387174821025)
   # args.k = 5 # influenza (Error: 1.25175439578)

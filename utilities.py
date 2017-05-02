@@ -3,28 +3,25 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import pandas as pd
 import numpy as np
-import calendar
-import time
-
 
 from matplotlib import rcParams
 
-rcParams['font.family'] = 'sans-serif' # ... for regular text
-rcParams['font.sans-serif'] = ['Helvetica'] #, Avant Garde, Computer Modern Sans 
+# Try to make plots look nice
+rcParams['font.family'] = 'sans-serif'
+rcParams['font.sans-serif'] = ['Helvetica']
 rcParams['pdf.fonttype'] = 42
 rcParams['ps.fonttype'] = 42
 
 rcParams['xtick.major.pad'] = '8'
 rcParams['lines.solid_capstyle'] = 'butt'
 
-# Dates have been removed from the data
+# Dates have been removed from the data, so add them back in
 dates = pd.read_csv("data/dates_hourly.csv", names=["date"], parse_dates=[0])["date"].tolist()
 
 # Helper function for reading Google trends data
 def read_csv(input_filepath, delimiter):
   return pd.read_csv(input_filepath, delimiter=delimiter, header=0)
 
-# Currently only works for two-dimensional embeddings
 def plot_series(data, input_filepath, keyword, save_output = True):
   #data['date'] = [date.astype('datetime64[ns]') for date in dates]
   #data['date'] = dates
