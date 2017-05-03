@@ -24,7 +24,7 @@ def read_csv(input_filepath, delimiter):
 
 def plot_series(data, input_filepath, keyword, save_output = True):
   #data['date'] = [date.astype('datetime64[ns]') for date in dates]
-  #data['date'] = dates
+  data['date'] = dates
 
   fig = plt.figure()
   ax = fig.add_subplot(111)

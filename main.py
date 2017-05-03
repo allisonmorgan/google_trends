@@ -17,7 +17,7 @@ if __name__ == "__main__":
   trend_options = {
     "baseball": ["data/baseball_hourly.csv", "Baseball", 5, 4], 
     "influenza": ["data/influenza_hourly.csv", "Influenza", 13, 5],
-    "fullmoon": ["data/fullmoon_hourly.csv", "Full moon", 14, 5]
+    "full moon": ["data/fullmoon_hourly.csv", "Full moon", 14, 5]
   }
 
   if not trend_options.has_key(args.keyword):
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
   # args.k = 5 # baseball (Error: 0.387174821025)
   # args.k = 5 # influenza (Error: 1.25175439578)
-  # args.k = 5 # full mooon (Error: 0.876690272743)
+  # args.k = 5 # full mooon (Error: 0.907941254943)
 
   if args.multistep:
     print("Since multi-step forecast is {0}, number of nearest neighbors (currently {1}) must be set to 1".format(args.multistep, args.k))
