@@ -20,7 +20,7 @@ This will generate a plot of the [time series](https://github.com/allisonmorgan/
 
 <img src="https://github.com/allisonmorgan/google_trends/blob/master/data/fullmoon_hourly.csv_prediction.png?raw=true"/>
 
-In blue is the real time series, and in red are is our single-step forecast using Lorenz Method of Analogues with k=5.
+In blue is the real time series, and in red is our single-step forecast using Lorenz Method of Analogues with k=5.
 
 ### Works Cited
 
