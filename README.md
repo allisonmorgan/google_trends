@@ -16,7 +16,7 @@ To play with one of the trends already downloaded ("baseball", "influenza", and 
 python main.py "full moon"
 ``` 
 
-This will generate a plot of the [time series](https://github.com/allisonmorgan/google_trends/blob/master/data/fullmoon_hourly.csv.trend.png). It will also create plots of [mutual information](https://github.com/allisonmorgan/google_trends/blob/master/data/fullmoon_hourly.csv.mi.png) and percentage of [false nearest neighbors](https://github.com/allisonmorgan/google_trends/blob/master/data/fullmoon_hourly.csv.fnn.png) - the steps required to [delay-coordinate embed](https://github.com/allisonmorgan/google_trends/blob/master/data/fullmoon_hourly.csv.embed.png) the time series. Finally, it will produce a [prediction](https://github.com/allisonmorgan/google_trends/blob/master/data/fullmoon_hourly.csv_prediction.png) of the last 20% trend.
+This will generate a plot of the [time series](https://github.com/allisonmorgan/google_trends/blob/master/data/fullmoon_hourly.csv.trend.png). It will also create plots of [mutual information](https://github.com/allisonmorgan/google_trends/blob/master/data/fullmoon_hourly.csv.mi.png) and percentage of [false nearest neighbors](https://github.com/allisonmorgan/google_trends/blob/master/data/fullmoon_hourly.csv.fnn.png) - the steps required to [delay-coordinate embed](https://github.com/allisonmorgan/google_trends/blob/master/data/fullmoon_hourly.csv.embed.png) the time series. Finally, it will produce a [prediction](https://github.com/allisonmorgan/google_trends/blob/master/data/fullmoon_hourly.csv_prediction.png) for the last 20% of time series.
 
 <img src="https://github.com/allisonmorgan/google_trends/blob/master/data/fullmoon_hourly.csv_prediction.png?raw=true"/>
 
