@@ -27,7 +27,7 @@ In blue is the real time series, and in red are is our single-step forecast usin
 I would highly recommend looking over Joshua Garland and Liz Bradley's paper ["Prediction in Projection"](https://arxiv.org/abs/1503.01678) for information about delay-coordinate embedding and prediction using Lorenz Method of Analogues (LMA).
 
 ```
-J. Garland and E. Bradley, "Prediction in projection," Chaos 25:123108 (2015); http://dx.doi.org/10.1063/1.4936242
+J. Garland and E. Bradley, "Prediction in projection," Chaos 25:123108 (2015)
 ```
 
 The file [`embedding.py`](https://github.com/allisonmorgan/google_trends/blob/master/embedding.py) contains python wrappers for some functions from the time series analysis package, [TISEAN](https://www.mpipks-dresden.mpg.de/~tisean/Tisean_3.0.1/index.html). Binaries relevant to this project have been reproduced in the [`tisean`](https://github.com/allisonmorgan/google_trends/tree/master/tisean) folder.
