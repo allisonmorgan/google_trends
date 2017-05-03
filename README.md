@@ -8,7 +8,7 @@ The goals of this project were to see whether of not some Google search trends a
 
 ### Setup
 
-This package requires `numpy`, `sklearn`, `matplotlib` and `pandas`. The notebook, `parse_google_trends.ipynb`, contains code for downloading, and cleaning a given Google search trend. To learn more read Samantha Molnar's [blog post](http://samanthamolnar.me/personal/2017/05/02/hacking-google-trends.html).
+This package requires `pytrends`, `numpy`, `sklearn`, `matplotlib` and `pandas`. The notebook, `parse_google_trends.ipynb`, contains code for downloading, and cleaning a given Google search trend. To learn more read Samantha Molnar's [blog post](http://samanthamolnar.me/personal/2017/05/02/hacking-google-trends.html).
 
 To play with one of the trends already downloaded ("baseball", "influenza", and "full moon"), you may run:
 
