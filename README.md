@@ -24,16 +24,6 @@ This will generate a plot of the [time series](https://github.com/allisonmorgan/
 
 #### Works Cited
 
-I would highly recommend checking out 
-
-The file `tigramite_preprocessing.py` comes from [Tigramite](https://github.com/jakobrunge/tigramite). 
-
-```
-J. Runge et al., Nature Communications, 6, 8502 (2015)
-J. Runge, J. Heitzig, V. Petoukhov, and J. Kurths, Phys. Rev. Lett. 108, 258701 (2012)
-J. Runge, J. Heitzig, N. Marwan, and J. Kurths, Phys. Rev. E 86, 061121 (2012)
-J. Runge, V. Petoukhov, and J. Kurths, Journal of Climate, 27.2 (2014)
-```
 
 The file `embedding.py` contains python wrappers for some functions from the time series analysis package, [TISEAN](https://www.mpipks-dresden.mpg.de/~tisean/Tisean_3.0.1/index.html). Binaries relevant to this project have been reproduced in the `tisean` folder.
 
